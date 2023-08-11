@@ -133,7 +133,7 @@ Now we can spawn uWSGI to natively speak the uwsgi protocol:
 
 .. code-block:: sh
 
-   uwsgi --socket 127.0.0.1:3031 --wsgi-file foobar.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+   uwsgi --http-socket 127.0.0.1:3031 --wsgi-file foobar.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191
 
 If you'll run ``ps aux``, you will see one process less. The HTTP router has been removed as our "workers" (the processes assigned to uWSGI)
 natively speak the uwsgi protocol.
@@ -162,7 +162,7 @@ We suppose the Django project is in ``/home/foobar/myproject``:
 
 .. code-block:: sh
 
-   uwsgi --socket 127.0.0.1:3031 --chdir /home/foobar/myproject/ --wsgi-file myproject/wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+   uwsgi --http-socket 127.0.0.1:3031 --chdir /home/foobar/myproject/ --wsgi-file myproject/wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191
 
 (with ``--chdir`` we move to a specific directory). In Django this is required to correctly load modules.
 
@@ -172,7 +172,7 @@ Never fear! uWSGI supports various configuration styles. In this quickstart we w
 .. code-block:: ini
 
     [uwsgi]
-    socket = 127.0.0.1:3031
+    http-socket = 127.0.0.1:3031
     chdir = /home/foobar/myproject/
     wsgi-file = myproject/wsgi.py
     processes = 4
@@ -192,14 +192,14 @@ using an old (< 1.4) version of Django. In such a case you need a little bit mor
 
 .. code-block:: sh
 
-   uwsgi --socket 127.0.0.1:3031 --chdir /home/foobar/myproject/ --pythonpath .. --env DJANGO_SETTINGS_MODULE=myproject.settings --module "django.core.handlers.wsgi:WSGIHandler()" --processes 4 --threads 2 --stats 127.0.0.1:9191
+   uwsgi --http-socket 127.0.0.1:3031 --chdir /home/foobar/myproject/ --pythonpath .. --env DJANGO_SETTINGS_MODULE=myproject.settings --module "django.core.handlers.wsgi:WSGIHandler()" --processes 4 --threads 2 --stats 127.0.0.1:9191
 
 Or, using the .ini file:
 
 .. code-block:: ini
 
    [uwsgi]
-   socket = 127.0.0.1:3031
+   http-socket = 127.0.0.1:3031
    chdir = /home/foobar/myproject/
    pythonpath = ..
    env = DJANGO_SETTINGS_MODULE=myproject.settings
@@ -234,7 +234,7 @@ We still continue to use the 4 processes/2 threads and the uwsgi socket as the b
 
 .. code-block:: sh
 
-   uwsgi --socket 127.0.0.1:3031 --wsgi-file myflaskapp.py --callable app --processes 4 --threads 2 --stats 127.0.0.1:9191
+   uwsgi --http-socket 127.0.0.1:3031 --wsgi-file myflaskapp.py --callable app --processes 4 --threads 2 --stats 127.0.0.1:9191
 
 (the only addition is the ``--callable`` option).
 
